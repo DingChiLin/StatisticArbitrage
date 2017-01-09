@@ -6,7 +6,11 @@ import csv
 
 def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
-        yield (start_date + timedelta(n)).strftime("%Y/%m/%d")[1:]
+        date_str = (start_date + timedelta(n)).strftime("%Y/%m/%d")
+        while date_str[0] == '0':
+            date_str = date_str[1:]
+
+        yield date_str
 
 def get_stock_info(driver, date):
     input_date = driver.find_element_by_name("input_date")
@@ -71,7 +75,7 @@ def crawler(url, start_date, end_date):
 
 def main():
     url = "http://www.twse.com.tw/ch/trading/exchange/BWIBBU/BWIBBU_d.php"
-    start_date = date(105, 1, 1)
+    start_date = date(95, 1, 1)
     end_date = date(106, 1, 6)
 
     data = crawler(url, start_date, end_date)
